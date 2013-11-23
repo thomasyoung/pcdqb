@@ -1,5 +1,4 @@
 This program is the implementation of the method proposed in the paper Point-Based Manifold Harmonics.
-For any questions, please contact yxl072100@utdallas.edu .
 
 Acknowledgement:
 
@@ -12,12 +11,13 @@ Dependency:
     --GMP http://gmplib.org/
     --MPFR http://www.mpfr.org/
 
-Attached binary is compiled using MinGW GCC 4.5.2 with CGAL 3.8, Boost 1.46.1, GMP 5.0.1, MPFR 3.0.1.
+Successfully compiled using MinGW GCC 4.5.2 with CGAL 3.8, Boost 1.46.1, GMP 5.0.1, MPFR 3.0.1.
+Also known to be working with MinGW-W64.
 It should work on most windows system.
 
 Usage:
 
-pcdqb452.exe MModel(input) QFile(output) BFile(output)
+pcdqb.exe MModel(input) QFile(output) BFile(output)
 
 It takes 1 input of 3D triangular model as M file and output 2 files for Q matrix and B matrix as specified in the paper.
 Q file list all elements of the sparse matrix Q in the Matlab manner. In each row, the first number is the row-index starting
