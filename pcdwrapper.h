@@ -5,22 +5,22 @@
 
 class pcdwrapper {
 public:
-    pcdwrapper(void);
-    ~pcdwrapper(void);
+  pcdwrapper(void);
+  ~pcdwrapper(void);
 
 public:
-    bool readMFile(const char *filename);
-    bool readMatFile(const char *filename);
+  bool readMFile(const char *filename);
+  bool readMatFile(const char *filename);
 
-    void calculate_pcd();
+  void calculate_pcd();
 
-    std::vector<std::vector<double> > m_points;
-    std::vector<unsigned int> m_II, m_JJ;
-    std::vector<double> m_SS;
-    std::vector<double> m_val;
+  std::vector<std::vector<double>> m_points;
+  std::vector<unsigned int> m_II, m_JJ;
+  std::vector<double> m_SS;
+  std::vector<double> m_val;
 
-    std::vector<std::vector<unsigned int> > m_sorted_piv;
+  std::vector<std::vector<unsigned int>> m_sorted_piv;
 
-    std::vector<double> multiplyMatrix();
+  std::vector<double> multiplyMatrix();
 };
 #endif

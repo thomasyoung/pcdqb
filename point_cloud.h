@@ -6,96 +6,97 @@
 using namespace std;
 
 //-------------------------------------------------------------------
-//VPCloud: vertex class for triangle mesh
+// VPCloud: vertex class for triangle mesh
 //-------------------
-#define VPCLOUD_FLAG_SELECTED	0x4
+#define VPCLOUD_FLAG_SELECTED 0x4
 
-
-class VPCloud{
+class VPCloud {
 
 public:
-  //Constructor
-  	VPCloud(): _flag(0){}
-  	VPCloud(const dPoint& co): _flag(0) {  _coord = co; }
-  
-  	VPCloud(const VPCloud& dP){
-    	_coord = dP.coord(); 
-   	_flag = dP.flag();
-  	}
-  	//Overloaded operator
-  	VPCloud& operator = (const VPCloud& dP){
-    	if (this != &dP){
-			this->VPCloud::~VPCloud();
-			new (this) VPCloud(dP);
-		}
-		return *this;
-  	}
-	//Function for accessing data
-  	const dPoint& coord() const { return _coord; }
- 	void set_coord(const dPoint& co) { _coord = co; }
+  // Constructor
+  VPCloud() : _flag(0) {}
+  VPCloud(const dPoint &co) : _flag(0) { _coord = co; }
 
-  	bool check_flag(unsigned char f) { return _flag&f; }
-  	void set_flag(unsigned char f) { _flag |= f; }
-  	void un_set_flag(unsigned char f) { _flag &= (~f); }
-  	unsigned char flag() const { return _flag; }
-  	void copy_flag(unsigned char f) { _flag = f; }
-  
+  VPCloud(const VPCloud &dP) {
+    _coord = dP.coord();
+    _flag = dP.flag();
+  }
+  // Overloaded operator
+  VPCloud &operator=(const VPCloud &dP) {
+    if (this != &dP) {
+      this->VPCloud::~VPCloud();
+      new (this) VPCloud(dP);
+    }
+    return *this;
+  }
+  // Function for accessing data
+  const dPoint &coord() const { return _coord; }
+  void set_coord(const dPoint &co) { _coord = co; }
+
+  bool check_flag(unsigned char f) { return _flag & f; }
+  void set_flag(unsigned char f) { _flag |= f; }
+  void un_set_flag(unsigned char f) { _flag &= (~f); }
+  unsigned char flag() const { return _flag; }
+  void copy_flag(unsigned char f) { _flag = f; }
+
 private:
-  	unsigned char _flag;
-  	dPoint _coord;  
+  unsigned char _flag;
+  dPoint _coord;
 };
 
 //-------------------------------------------------------------------
 
-
-class PCloud{
+class PCloud {
 public:
-  	//Constructor
-  	PCloud(){};
-	PCloud(double *points, unsigned int np, unsigned int dim);
-  	//Destructor
-  	virtual ~PCloud(){};
+  // Constructor
+  PCloud(){};
+  PCloud(double *points, unsigned int np, unsigned int dim);
+  // Destructor
+  virtual ~PCloud(){};
 
+  // Function for accessing data
+  unsigned int p_count() const { return _points.size(); }
 
-  	//Function for accessing data
-  	unsigned int p_count() const { return _points.size(); }
+  unsigned int add_point(const VPCloud &v) {
+    _points.push_back(v);
+    return (_points.size() - 1);
+  }
+  VPCloud &point(unsigned int i) { return _points[i]; }
 
-  	unsigned int add_point(const VPCloud& v){ _points.push_back(v); return (_points.size() - 1);}
-  	VPCloud& point(unsigned int i ) { return _points[i]; }
-		
-  	void copy_name(char* name) { sprintf(name, "%s", _name); }	
-  	void set_name(char* name){ sprintf(_name, "%s", name );}
-	
-	unsigned int dd() const { return _d; }
-	void set_dd(unsigned int d) { _d = d; }
+  void copy_name(char *name) { sprintf(name, "%s", _name); }
+  void set_name(char *name) { sprintf(_name, "%s", name); }
 
+  unsigned int dd() const { return _d; }
+  void set_dd(unsigned int d) { _d = d; }
 
-	//Functions for output 
-  	//void OutPCloudOffFile(char *filename);
-  	//void OutPCloudOffFile(FILE *fp, double r, double g, double b, double a);
-	void OutPCloud(char *filename);
+  // Functions for output
+  // void OutPCloudOffFile(char *filename);
+  // void OutPCloudOffFile(FILE *fp, double r, double g, double b, double a);
+  void OutPCloud(char *filename);
 
+  // Functions for rendering
+  // void Render(float m[16]);
+  // void Render(float m[16], vector<double> fn, double min, double max, bool
+  // shownormal);
+  // void Render_select_points(vector<unsigned int>& select_points);
+  // void SelectRender_points();
 
-  	//Functions for rendering
-  	//void Render(float m[16]);
-  	//void Render(float m[16], vector<double> fn, double min, double max, bool shownormal);
-	//void Render_select_points(vector<unsigned int>& select_points);
-	//void SelectRender_points();
+  // Functions for bounding box
+  void GetBBox();
+  dPoint pmin() { return _pmin; }
+  dPoint pmax() { return _pmax; }
+  double radius() {
+    return sqrt(CGAL::to_double((_pmax - _pmin) * (_pmax - _pmin))) / 2;
+  }
 
-  	//Functions for bounding box
-  	void GetBBox();
-  	dPoint pmin(){ return _pmin; }
-  	dPoint pmax(){ return _pmax; }
-  	double radius() {return sqrt( CGAL::to_double((_pmax - _pmin) * (_pmax - _pmin)) ) / 2; }
+  // Average neighborhood size
+  double average_size(unsigned int k);
+  // Functions for Creation
+  bool ReadPointCloud(char *filename);
 
-	//Average neighborhood size
-  	double average_size(unsigned int k);
-  	//Functions for Creation
-  	bool ReadPointCloud(char *filename);
+  // Clear
+  void clear() { _points.clear(); }
 
-  	//Clear
-  	void clear(){ _points.clear();  }
-            
 private:
   unsigned int _d;
   vector<VPCloud> _points;
@@ -105,4 +106,3 @@ private:
 };
 
 #endif //__POINT_CLOUD_H__
-

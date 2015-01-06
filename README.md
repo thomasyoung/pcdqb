@@ -29,4 +29,3 @@ M file format is a text-based 3D model format. A python script is provided to co
 obj2mvonly.py objname mfilename
 
 It works with Python 3.2.
-

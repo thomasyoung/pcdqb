@@ -1,4 +1,4 @@
-#Yang Liu 2009-9-30
+#Yang Liu 2009 - 9 - 30
 import os
 import fileinput
 import math
@@ -26,7 +26,7 @@ def readObjfilelist(filename):
         if len(ar)>0:
 
           if ar[0]=='v':
-#          pdb.set_trace()
+#pdb.set_trace()
             vid = vcnt+1
             x = float(ar[1])
             y = float(ar[2])
@@ -48,12 +48,12 @@ def readObjfilelist(filename):
                 v2id = int(ar[2])
                 v3id = int(ar[3])
 
-#            pdb.set_trace()
+#pdb.set_trace()
             finst=[v1id, v2id, v3id, curmtl]
             flist.append(finst)
 
-#           deal with texture id
-            # vertex index/ texture index/ normal index
+#deal with texture id
+#vertex index / texture index / normal index
             if ar[1].rfind('/')>0 and ar[2].rfind('/')>0 and ar[3].rfind('/')>0 :
                 if len(ar[1].split('/')[1]) > 0 :
                     v1vtindex = int(ar[1].split('/')[1])
@@ -72,20 +72,20 @@ def readObjfilelist(filename):
                 vtflist.append(vtinst)
 
           elif ar[0]=='vt':
-          # texture data
+#texture data
             if len(ar)>2:
-              # 2d texture
+# 2d texture
                 tx=float(ar[1])
                 ty=float(ar[2])
             else :
-              # 1d texture
+# 1d texture
                 tx=float(ar[1])
                 ty=0
             vtinst=[tx, ty]
             vtlist.append(vtinst)
 
           elif ar[0]=='vn':
-          # normal dictionary
+#normal dictionary
             nx = float(ar[1])
             ny = float(ar[2])
             nz = float(ar[3])
@@ -93,7 +93,7 @@ def readObjfilelist(filename):
             vnlist.append(vninst)
 
           elif ar[0]=='usemtl':
-          #material
+#material
             mtl = ar[1]
             if not mtl in mtllist:
               mtllist.append(mtl)
@@ -101,7 +101,7 @@ def readObjfilelist(filename):
 
             curmtl=mtllist.index(mtl)
 
-#    pdb.set_trace()
+#pdb.set_trace()
     print("v: "+str(len(vlist)))
     print("f: "+str(len(flist)))
     return [vlist, flist, vtlist, vnlist, vtflist, mtllist]
@@ -165,4 +165,3 @@ for i in range(0, nf):
 
 
 of.close()
-
